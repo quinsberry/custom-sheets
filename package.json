@@ -1,8 +1,8 @@
 {
-  "name": "excel-ts",
+  "name": "custom-sheets",
   "private": true,
   "version": "1.0.0",
-  "description": "Pure ts Excel app",
+  "description": "Pure typescript Excel/Sheets app",
   "main": "index.ts",
   "scripts": {
     "watch": "webpack --watch",

@@ -21,6 +21,7 @@ const plugins = () => {
         new CopyPlugin({
             patterns: [
                 {from: path.resolve(__dirname, 'public/favicon.ico'), to: path.resolve(__dirname, 'dist')},
+                {from: path.resolve(__dirname, 'public/logo.png'), to: path.resolve(__dirname, 'dist')},
             ],
         }),
         new MiniCssExtractPlugin({
