@@ -6,7 +6,7 @@
   "main": "index.ts",
   "scripts": {
     "watch": "webpack --watch",
-    "dev": "webpack serve --open",
+    "dev": "cross-env NODE_ENV=development webpack serve --open",
     "build": "cross-env NODE_ENV=production webpack",
     "lint": "eslint src --ext .ts"
   },
@@ -39,5 +39,8 @@
     "webpack": "^5.53.0",
     "webpack-cli": "^4.8.0",
     "webpack-dev-server": "^4.2.1"
+  },
+  "dependencies": {
+    "normalize.css": "^8.0.1"
   }
 }

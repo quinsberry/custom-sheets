@@ -41,6 +41,9 @@ const plugins = () => {
     return plugins;
 };
 
+console.info('Process node env:', process.env.NODE_ENV);
+console.info('Is in production mode:', isProd);
+
 module.exports = {
     entry: './src/index.ts',
     mode: process.env.NODE_ENV || 'development',
@@ -72,6 +75,7 @@ module.exports = {
         extensions: ['.ts', '.js'],
         alias: {
             '@': path.resolve(__dirname, 'src'),
+            '*': path.resolve(__dirname, './src'),
         },
     },
     devServer: {
