@@ -177,6 +177,7 @@
       }
     ],
     "use-isnan": "error",
-    "valid-typeof": "off"
+    "valid-typeof": "off",
+    "object-curly-spacing": "off"
   }
 }
