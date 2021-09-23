@@ -157,13 +157,10 @@
       "error",
       "as-needed"
     ],
-    "quotes": [
-      "error",
-      "single",
-      {
-        "avoidEscape": true
-      }
-    ],
+    "quotes": ["error", "single", {
+      "avoidEscape": true,
+      "allowTemplateLiterals": true
+    }],
     "radix": "off",
     "semi": "error",
     "space-before-function-paren": "off",
