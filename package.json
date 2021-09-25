@@ -41,6 +41,7 @@
     "webpack-dev-server": "^4.2.1"
   },
   "dependencies": {
+    "dotenv": "^10.0.0",
     "normalize.css": "^8.0.1"
   }
 }
