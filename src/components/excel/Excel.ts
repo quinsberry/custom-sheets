@@ -11,6 +11,7 @@ interface ExcelOptions<C> {
 
 type ComponentClasses = typeof Formula | typeof Header | typeof Table | typeof Toolbar;
 type ComponentInstances = Formula | Header | Table | Toolbar;
+
 export class Excel {
     private $el: DOM;
     private components: ComponentInstances[] = [];
@@ -29,7 +30,7 @@ export class Excel {
 
         this.components = this.componentsInits.map(Component => {
             const $el = $.create('div', Component.className);
-            const component = new Component($el.$el);
+            const component = new Component($el);
             $el.html(component.toHTML());
             $root.append($el);
             return component;

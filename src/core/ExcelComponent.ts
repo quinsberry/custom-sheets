@@ -1,4 +1,5 @@
 import { DOMListener } from '@/core/DOMListener';
+import { DOM } from '@/core/dom';
 
 interface ExcelComponentOptionsConfig {
     name: string;
@@ -8,8 +9,8 @@ interface ExcelComponentOptionsConfig {
 export abstract class ExcelComponent extends DOMListener {
     static className: string;
 
-    constructor($root: Element, options?: ExcelComponentOptionsConfig) {
-        super($root, options?.listeners);
+    constructor($root: DOM, options?: ExcelComponentOptionsConfig) {
+        super($root, options);
     }
 
     toHTML() {

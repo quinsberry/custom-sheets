@@ -1,12 +1,13 @@
 import { ExcelComponent } from '@/core/ExcelComponent';
+import { DOM } from '@/core/dom';
 
 export class Formula extends ExcelComponent {
     static className = 'excel__formula';
 
-    constructor($root: Element) {
+    constructor($root: DOM) {
         super($root, {
-            name: 'formula',
-            listeners: ['input'],
+            name: 'Formula',
+            listeners: ['input', 'click'],
         });
     }
 
@@ -17,7 +18,10 @@ export class Formula extends ExcelComponent {
         `;
     }
 
-    onInput(event: Event) {
-        console.log('onInput, formula: ', event);
+    private onInput(e: Event) {
+    }
+
+    private onClick(e: Event) {
+
     }
 }
