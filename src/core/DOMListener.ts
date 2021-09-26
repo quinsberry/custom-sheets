@@ -9,8 +9,8 @@ export interface DOMListenerOptionsConfig {
 
 export abstract class DOMListener {
     public $root: DOM;
+    public $rootName: string | null = null;
 
-    private $rootName: string | null = null;
     private listeners: string[] = [];
 
     constructor($root: DOM, options?: DOMListenerOptionsConfig) {
@@ -25,8 +25,10 @@ export abstract class DOMListener {
     protected initDOMListeners() {
         this.listeners.forEach(listener => {
             const methodName = getMethodName(listener);
-            // @ts-ignore ts cannot match this[methodName]
-            const method: ((e: Event) => void) | null = this[methodName]?.bind(this) ?? null;
+            // @ts-ignore ts cannot correctly type this[methodName]
+            this[methodName] = this[methodName]?.bind(this);
+            // @ts-ignore ts cannot correctly type this[methodName]
+            const method: ((e: Event) => void) | null = this[methodName] ?? null;
             assertNonNull(method,
                 `Method "${methodName}" is not implemented for listener "${listener}" in ${this.$rootName} component.`
             );
@@ -35,6 +37,12 @@ export abstract class DOMListener {
     }
 
     protected removeDOMListeners() {
+        this.listeners.forEach(listener => {
+            const methodName = getMethodName(listener);
+            // @ts-ignore ts cannot correctly type this[methodName]
+            const method = this[methodName];
+            this.$root.off(listener, method);
+        });
     }
 }
 

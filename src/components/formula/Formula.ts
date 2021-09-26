@@ -19,9 +19,10 @@ export class Formula extends ExcelComponent {
     }
 
     private onInput(e: Event) {
+        console.log('input: ', e);
     }
 
     private onClick(e: Event) {
-
+        console.log('click: ', e);
     }
 }
