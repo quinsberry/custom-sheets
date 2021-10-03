@@ -87,6 +87,7 @@
     "indent": "off",
     "jsdoc/newline-after-description": "off",
     "max-classes-per-file": "off",
+    "operator-linebreak": [2, "after", { "overrides": { "?": "ignore", ":": "ignore" } }],
     "max-len": "off",
     "new-parens": "error",
     "no-bitwise": "off",

@@ -1,13 +1,18 @@
-import { assertNonNull } from '@/utils/type-guards';
+import { assertNonNull, assertType } from '@/utils/type-guards';
 
 export class DOM {
-    $el: Element;
+    $el: HTMLElement;
 
     constructor(selector: string | Element) {
         const expectedElement = typeof selector === 'string' ? document.querySelector(selector) : selector;
         assertNonNull(expectedElement, `DOM element not found by provided selector ${selector}`);
+        assertType<HTMLElement>(expectedElement, el => 'style' in el, 'DOM element should be extended from HTMLElement');
 
         this.$el = expectedElement;
+    }
+
+    get data(): DOMStringMap {
+        return this.$el.dataset;
     }
 
     html(html?: string): DOM | string {
@@ -37,6 +42,27 @@ export class DOM {
         }
         this.$el.append(node);
         return this;
+    }
+
+    closest(selector: string): DOM {
+        const element = this.$el.closest(selector);
+        assertNonNull(element, `Closest element with selector ${selector} was not found`);
+        return $(element);
+    }
+
+    getCoords() {
+        return this.$el.getBoundingClientRect();
+    }
+
+    findAll(selector: string) {
+        return this.$el.querySelectorAll(selector);
+    }
+
+    css(styles: Partial<Omit<CSSStyleDeclaration, 'parentRule' | 'length'>>) {
+        Object.entries(styles).forEach(([key, value]) => {
+            // @ts-ignore Cannot fix this error - S7015: Element implicitly has an 'any' type because index expression is not of type 'number'.
+            this.$el.style[key] = value;
+        });
     }
 }
 

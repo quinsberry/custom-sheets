@@ -3,18 +3,32 @@ enum CODES {
     Z = 90,
 }
 
-function toColumn(colLetter: string) {
-    return `<div class="column">${colLetter}</div>`;
+function toColumn(colLetter: string, colIdx: number) {
+    return `
+        <div class="column" data-type="resizable" data-col="${colIdx}">
+            ${colLetter}
+            <div class="col-resize" data-resize="col"></div>
+        </div>
+    `;
 }
 
-function toCell() {
-    return `<div class="cell" contenteditable></div>`;
+function toCell(_: string, colIdx: number) {
+    return `<div class="cell" contenteditable data-col="${colIdx}"></div>`;
 }
 
 function createRow(idx: number | null, content: string) {
+    const firstRowInfo = `
+        <div class="row-info"></div>
+    `;
+    const rowInfo = `
+        <div class="row-info">
+            ${idx}
+            <div class="row-resize" data-resize="row"></div>
+        </div>
+    `;
     return `
-        <div class="row">
-            <div class="row-info">${idx ?? ''}</div>
+        <div class="row" ${idx ? 'data-type="resizable"' : ''}>
+            ${idx === null ? firstRowInfo : rowInfo}
             <div class="row-data">${content}</div>
         </div>
     `;
