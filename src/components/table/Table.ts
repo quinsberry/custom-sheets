@@ -22,42 +22,53 @@ export class Table extends ExcelComponent {
             const $resizer = $(e.target);
             const $parent = $resizer.closest('[data-type="resizable"]');
             const coords = $parent.getCoords();
+            let value: number = 0;
+            const type = $resizer.data.resize;
 
-            const getRowResizeHandler = () => {
-                return (event: MouseEvent) => {
-                    const delta = event.pageY - coords.bottom;
-                    const value = coords.height + delta;
-                    $parent.css({ height: value + 'px' });
-                };
-            };
+            $resizer.css({
+                opacity: '1',
+                ...(type === 'col' ? { bottom: '-2000px' } : undefined),
+                ...(type === 'row' ? { right: '-2000px' } : undefined),
+            });
 
-            const getColResizeHandler = () => {
-                const cells = this.$root.findAll(`[data-col="${$parent.data.col}"]`);
-                assertType<NodeListOf<HTMLElement>>(cells, elems => 'style' in elems[0] && 'style' in elems[1]);
 
-                return (event: MouseEvent) => {
+            document.onmousemove = event => {
+                if (type === 'col') {
                     const delta = event.pageX - coords.right;
-                    const value = coords.width + delta;
-                    $parent.css({ width: value + 'px' });
-                    cells.forEach(el => el.style.width = value + 'px');
-                };
-            };
-
-            const getHandler = () => {
-                switch ($resizer.data.resize) {
-                    case 'row':
-                        return getRowResizeHandler();
-                    case 'col':
-                        return getColResizeHandler();
-                    default:
-                        assertUnreachable($resizer.data.resize as never);
-                        return null;
+                    value = coords.width + delta;
+                    $resizer.css({
+                        right: -delta + 'px',
+                    });
+                } else if (type === 'row') {
+                    const delta = event.pageY - coords.bottom;
+                    value = coords.height + delta;
+                    $resizer.css({
+                        bottom: -delta + 'px',
+                    });
+                } else {
+                    assertUnreachable($resizer.data.resize as never);
                 }
             };
-
-            document.onmousemove = getHandler();
             document.onmouseup = () => {
                 document.onmousemove = null;
+                document.onmouseup = null;
+
+                if (type === 'col') {
+                    $parent.css({ width: value + 'px' });
+                    const cells = this.$root.findAll(`[data-col="${$parent.data.col}"]`);
+                    assertType<NodeListOf<HTMLElement>>(cells, elems => 'style' in elems[0] && 'style' in elems[1]);
+                    cells.forEach(el => el.style.width = value + 'px');
+                } else if (type === 'row') {
+                    $parent.css({ height: value + 'px' });
+                } else {
+                    assertUnreachable($resizer.data.resize as never);
+                }
+
+                $resizer.css({
+                    opacity: '0',
+                    bottom: '0',
+                    right: '0',
+                });
             };
         }
     }
